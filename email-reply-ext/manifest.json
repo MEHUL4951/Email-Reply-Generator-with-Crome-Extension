@@ -3,7 +3,7 @@
   "description": "AI Powered Email Reply Generator",
   "version": "1.0",
   "manifest_version": 3,
-
+  "author": "Mehul Hadiyal",
   "host_permissions": [
     "http://localhost:8080/*",
     "*://mail.google.com/*"
