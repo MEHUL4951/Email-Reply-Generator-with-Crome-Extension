@@ -1,0 +1,5 @@
+spring.application.name=email-reply-generator
+
+# application.properties
+gemini.api.url=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=
+gemini.api.key=AIzaSyBOeP7y-DlZqhZI7gi5_LSKgWkFM-MCHpc

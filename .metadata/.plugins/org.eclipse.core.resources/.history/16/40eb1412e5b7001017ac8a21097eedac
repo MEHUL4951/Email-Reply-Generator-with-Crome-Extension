@@ -1,0 +1,99 @@
+package com.email.writer.Service;
+
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.email.writer.controller.EmailRequest;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
+
+@Service
+public class EmailGeneratorService {
+	
+	private final WebClient webClient;
+	
+	public EmailGeneratorService(WebClient.Builder webClientBuiler) {
+		      this.webClient = webClientBuiler.build();
+	}
+	@Value("${gemini.api.url}")
+	private String gemini_api_url;
+	
+	@Value("${gemini.api.key}")
+	private String gemini_api_key;
+       
+	public String generateEmailReply(EmailRequest emailRequest) {
+		  // Build the prompt
+		  String prompt = buildPrompt(emailRequest);
+		  //Craft Request 
+		  Map<String,Object> requestBody = Map.of(
+			   "Contents",new Object[] {
+				   Map.of("parts",new Object[] {
+						   Map.of("text",prompt)
+				   })
+				   
+			   }
+		    );
+		  // Do Request and Response
+		  String response = webClient.post()
+				            .uri(gemini_api_url + gemini_api_key)
+				            .header("Content-type", "application/json")
+				            .retrieve()
+				            .bodyToMono(String.class)
+				            .block();
+				            
+		  
+		  // Return Response
+		   return extractResponseContent(response);
+	}
+
+	
+
+	private String buildPrompt(EmailRequest emailRequest) {
+		// TODO Auto-generated method stub
+		StringBuilder prompt = new StringBuilder();
+		String tone =  emailRequest.getTone();
+		String emailContent = emailRequest.getEmailContent();
+		
+
+		prompt.append("You are an expert email communication assistant.\n")
+		      .append("Your task is to write a professional and natural reply to the given email based on the specified tone.\n\n")
+		      .append("Instructions:\n")
+		      .append("- Read the original email carefully and understand its intent.\n")
+		      .append("- Write a complete reply email that sounds natural and context-aware.\n")
+		      .append("- Follow the specified tone exactly.\n")
+		      .append("- Start with an appropriate greeting and end with a polite closing.\n")
+		      .append("- If the sender asks questions, answer them.\n")
+		      .append("- If the sender makes a request, respond accordingly.\n")
+		      .append("- Keep it concise but meaningful (around 100–150 words).\n\n")
+		      .append("Tone: ").append(tone).append("\n\n")
+		      .append("Original Email:\n")
+		      .append(emailContent).append("\n\n")
+		      .append("Now, write the reply email:");
+
+				
+		return prompt.toString();
+	}
+	
+	private String extractResponseContent(String response) {
+		try {
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode rootnode = mapper.readTree(response);
+		return rootnode.path("candidates")
+			   .get(0)
+			   .path("content")
+			   .get(0)
+			   .path("text")
+			   .asText();
+			
+		}
+		catch(Exception e) {
+			  return "Error Processing request" + e.getMessage();
+		}
+	
+	}
+}

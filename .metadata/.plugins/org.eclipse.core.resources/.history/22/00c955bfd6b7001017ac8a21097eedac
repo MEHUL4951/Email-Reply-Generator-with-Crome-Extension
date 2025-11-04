@@ -1,0 +1,43 @@
+package com.email.Service;
+
+import org.springframework.stereotype.Service;
+import com.email.controller.EmailRequest;
+
+@Service
+public class emailGeneratorService {
+       
+	public String generateEmailReply(EmailRequest emailRequest) {
+		  // Build the prompt
+		  String prompt = buildPrompt(emailRequest);
+		  //Craft Request 
+		  // Do Request and Response
+		  // Return Response
+		   return "";
+	}
+
+	private String buildPrompt(EmailRequest emailRequest) {
+		// TODO Auto-generated method stub
+		StringBuilder prompt = new StringBuilder();
+		String tone =  emailRequest.getTone();
+		String emailContent = emailRequest.getEmailContent();
+		
+
+		prompt.append("You are an expert email communication assistant.\n")
+		      .append("Your task is to write a professional and natural reply to the given email based on the specified tone.\n\n")
+		      .append("Instructions:\n")
+		      .append("- Read the original email carefully and understand its intent.\n")
+		      .append("- Write a complete reply email that sounds natural and context-aware.\n")
+		      .append("- Follow the specified tone exactly.\n")
+		      .append("- Start with an appropriate greeting and end with a polite closing.\n")
+		      .append("- If the sender asks questions, answer them.\n")
+		      .append("- If the sender makes a request, respond accordingly.\n")
+		      .append("- Keep it concise but meaningful (around 100–150 words).\n\n")
+		      .append("Tone: ").append(tone).append("\n\n")
+		      .append("Original Email:\n")
+		      .append(emailContent).append("\n\n")
+		      .append("Now, write the reply email:");
+
+				
+		return prompt.toString();
+	}
+}

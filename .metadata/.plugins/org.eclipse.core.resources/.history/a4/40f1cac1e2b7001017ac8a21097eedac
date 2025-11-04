@@ -1,0 +1,29 @@
+package com.email.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.email.Service.emailGeneratorService;
+
+
+@RestController
+@RequestMapping("/api/email")
+public class EmailGeneratorController {
+ 
+	 private emailGeneratorService emailgeneratorService;
+	 
+	 public EmailGeneratorController(emailGeneratorService emailgeneratorService) {
+		   this.emailgeneratorService = emailgeneratorService;
+	 }
+	 
+	@PostMapping
+	 public ResponseEntity<String> emailGenerator(@RequestBody EmailRequest emailRequest){
+//		String response = emailGeneratorService.
+		 return ResponseEntity.ok("");
+	 }
+
+}
