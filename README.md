@@ -29,31 +29,25 @@ This project generates **natural, tone-specific replies** to emails automaticall
 
 ---
 
-## 📁 Project Structure
+# Install / Enable the Extension in Chrome
 
-email-reply-generator/
-│
-├── backend/ # Spring Boot Application
-│ ├── src/main/java/com/email/writer/
-│ │ ├── controller/EmailGeneratorController.java
-│ │ ├── service/EmailGeneratorService.java
-│ │ └── model/EmailRequest.java
-│ ├── resources/
-│ │ └── application.properties
-│ └── pom.xml
-│
-├── frontend/ # React Frontend
-│ ├── src/
-│ │ ├── App.jsx
-│ │ ├── App.css
-│ │ └── components/
-│ ├── package.json
-│ └── vite.config.js
-│
-├── extension/ # Chrome Extension
-│ ├── manifest.json
-│ ├── content.js
-│ └── popup.html
-│
-└── README.md
+Follow these steps to load the extension into Google Chrome for development or testing.
+
+##Load unpacked (recommended for development)
+1. Open Chrome.
+2. Go to `chrome://extensions/`.
+3. Turn **ON** **Developer mode** (top-right toggle).
+4. Click **Load unpacked** (top-left).
+5. In the file dialog, select the extension folder (the folder containing `manifest.json`) and click **Select Folder**.
+6. The extension should appear in the list. Make sure it is **enabled**.
+7. Open Gmail (or the target site) and test the extension.  
+   - If you change code, go back to `chrome://extensions` and click the **Reload** button on your extension to apply changes.
+
+
+## Notes & Tips
+- Use **Load unpacked** while developing — easiest and fastest.
+- Keep the `manifest.json` version updated when you publish or re-pack.
+- If Gmail or the site is already open, refresh the page after installing or reloading the extension.
+- To publish publicly on Chrome Web Store, you need a Google Developer account (one-time registration fee).
+
 
